@@ -1,64 +1,64 @@
 # CompanySuggestPanel
 
-Salesforce Lightning Web Component (LWC) for company name suggestions using OpenCorporates API integration.
+OpenCorporates API 連携による会社名サジェスト機能を提供する Salesforce Lightning Web Component (LWC) です。
 
-## Overview
+## 概要
 
-CompanySuggestPanel is a Lightning Web Component that provides real-time company name suggestions as users type. It integrates with the OpenCorporates API to search for company information across multiple jurisdictions.
+CompanySuggestPanel は、ユーザーが会社名を入力する際にリアルタイムで会社候補を提案する Lightning Web Component です。OpenCorporates API と連携し、複数の管轄区域にわたって会社情報を検索できます。
 
-### Features
+### 主な機能
 
-- **Real-time Search**: Debounced input handler for efficient API calls
-- **Multi-jurisdiction Support**: Search across different jurisdictions
-- **Company Information Display**: Shows company name, jurisdiction code, company number, and status
-- **Error Handling**: Comprehensive error messages and user feedback
-- **Debug Mode**: Built-in debug logging for troubleshooting
-- **Mock Mode**: Test mode support without API token
+- **リアルタイム検索**: デバウンス処理により効率的な API 呼び出しを実現
+- **複数管轄区域対応**: 異なる管轄区域での会社検索に対応
+- **会社情報表示**: 会社名、管轄区域コード、会社番号、ステータスを表示
+- **エラーハンドリング**: 包括的なエラーメッセージとユーザーフィードバック
+- **デバッグモード**: トラブルシューティング用の組み込みデバッグログ機能
+- **モックモード**: API トークンなしでのテストモード対応
 
-## Components
+## コンポーネント構成
 
 ### Lightning Web Components (LWC)
 
-- `companySuggestPanel` - Main search and suggestion component
-  - Real-time company search functionality
-  - Candidate list display with status information
-  - Event dispatch for company selection
+- `companySuggestPanel` - メイン検索・サジェストコンポーネント
+  - リアルタイム会社検索機能
+  - 候補リスト表示（ステータス情報付き）
+  - 会社選択時のイベント発火
 
-### Apex Classes
+### Apex クラス
 
-- `CompanySuggestService` - Service class for company search
-  - `searchCompanies()` - Callout to OpenCorporates API
-  - `CompanyCandidate` DTO for API response mapping
+- `CompanySuggestService` - 会社検索サービスクラス
+  - `searchCompanies()` - OpenCorporates API の呼び出し
+  - `CompanyCandidate` DTO - API レスポンスのマッピング用
 
-- `CompanySuggestServiceTest` - Unit tests
-  - Mock HTTP response testing
+- `CompanySuggestServiceTest` - ユニットテスト
+  - モック HTTP レスポンステスト
 
-## Configuration
+## セットアップ
 
-### Prerequisites
+### 前提条件
 
-- Salesforce DX CLI installed
-- Org alias configured (default: `yumiorg`)
-- OpenCorporates API token (optional for mock mode)
+- Salesforce DX CLI がインストール済み
+- Org エイリアスが設定済み（デフォルト: `yumiorg`）
+- OpenCorporates API トークン（オプション：モックモードの場合は不要）
 
-### API Token Setup
+### API トークンの設定
 
-To use the actual OpenCorporates API:
+実際の OpenCorporates API を使用する場合：
 
-1. Create a Custom Label `OpenCorporatesApiToken` with your API token
-2. Configure the Named Credential `OpenCorporates` in your Salesforce org
-3. The component will automatically use the token for API calls
+1. カスタムラベル `OpenCorporatesApiToken` を作成し、API トークンを設定
+2. Salesforce org で名前付き認証情報 `OpenCorporates` を設定
+3. コンポーネントは自動的にトークンを使用して API 呼び出しを実行
 
-### Mock Mode
+### モックモード
 
-For development/testing without an API token:
-- The component detects when no token is available
-- Returns mock data for testing purposes
-- Console logging for debugging
+API トークンなしでの開発・テスト時：
+- トークンが利用できない場合、コンポーネントが自動的に検出
+- テスト用のモックデータを返却
+- デバッグ用コンソールログを出力
 
-## Development
+## 開発ガイド
 
-### Project Structure
+### プロジェクト構造
 
 ```
 .
@@ -83,28 +83,28 @@ For development/testing without an API token:
 └── README.md
 ```
 
-### Build and Deploy
+### ビルドとデプロイ
 
 ```bash
-# Create a scratch org
+# スクラッチ org を作成
 sfdx force:org:create -f config/project-scratch-def.json -a CompanySuggestPanel
 
-# Deploy source code
+# ソースコードをデプロイ
 sfdx project:deploy:start --source-dir force-app/main/default --target-org CompanySuggestPanel
 
-# Run tests
+# テストを実行
 sfdx force:apex:test:run -u CompanySuggestPanel
 ```
 
-## Usage
+## 使用方法
 
-Add the component to a Lightning page:
+Lightning ページにコンポーネントを追加：
 
 ```xml
 <c-company-suggest-panel></c-company-suggest-panel>
 ```
 
-Listen for the `companyselect` event:
+`companyselect` イベントをリッスン：
 
 ```javascript
 const panel = document.querySelector('c-company-suggest-panel');
@@ -114,25 +114,25 @@ panel.addEventListener('companyselect', (event) => {
 });
 ```
 
-## Testing
+## テスト
 
-Unit tests are included in `CompanySuggestServiceTest.cls`:
+`CompanySuggestServiceTest.cls` に含まれるユニットテスト：
 
 ```bash
 sfdx force:apex:test:run -u <target-org>
 ```
 
-## Debug Features
+## デバッグ機能
 
-- **debugMsg**: Display component initialization status on screen
-- **Console Logging**: JavaScript console logs for tracking lifecycle
-- **Apex Debug Logs**: Logging in Apex classes for API interactions
+- **debugMsg**: 画面にコンポーネント初期化ステータスを表示
+- **コンソールログ**: JavaScript コンソールログでライフサイクルを追跡
+- **Apex デバッグログ**: Apex クラスで API インタラクションをログ出力
 
-## License
+## ライセンス
 
 MIT
 
-## Related Documentation
+## 参考資料
 
 - [Salesforce Lightning Web Components](https://developer.salesforce.com/docs/component-library/overview/components)
-- [OpenCorporates API Documentation](https://api.opencorporates.com/documentation)
+- [OpenCorporates API ドキュメント](https://api.opencorporates.com/documentation)
